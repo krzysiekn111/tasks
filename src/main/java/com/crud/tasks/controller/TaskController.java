@@ -25,7 +25,7 @@ public class TaskController {
 
     @GetMapping(value = "{taskId}")
     public TaskDto getTask(@PathVariable Long taskId) {
-        Task tasks = service.getAllTasks().get(taskId.intValue());
+        Task tasks = service.findTaskById(taskId);
         return taskMapper.mapToTaskDto(tasks);
     }
 
