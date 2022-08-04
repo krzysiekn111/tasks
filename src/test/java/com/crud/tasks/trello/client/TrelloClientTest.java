@@ -1,8 +1,6 @@
 package com.crud.tasks.trello.client;
 
-import com.crud.tasks.domain.CreatedTrelloCard;
-import com.crud.tasks.domain.TrelloBoardDto;
-import com.crud.tasks.domain.TrelloCardDto;
+import com.crud.tasks.domain.*;
 import com.crud.tasks.trello.config.TrelloConfig;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -48,7 +46,6 @@ class TrelloClientTest {
 
         when(restTemplate.getForObject(uri, TrelloBoardDto[].class)).thenReturn(trelloBoards);
         // When
-//        List<TrelloBoardDto> fetchedTrelloBoards = trelloClient.getTrelloBoards();
         List<TrelloBoardDto> fetchedTrelloBoards = trelloClient.getTrelloBoards();
         // Then
         assertEquals(1, fetchedTrelloBoards.size());
@@ -74,7 +71,8 @@ class TrelloClientTest {
         CreatedTrelloCard createdTrelloCard = new CreatedTrelloCard(
                 "1",
                 "test task",
-                "http://test.com"
+                "http://test.com",
+                new Badges(0, new AttachmentByTypes(new Trello(0,0)))
         );
 
         when(restTemplate.postForObject(uri, null, CreatedTrelloCard.class)).thenReturn(createdTrelloCard);
