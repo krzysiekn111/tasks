@@ -9,9 +9,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 
+import javax.swing.text.html.Option;
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+
 
 @ExtendWith(MockitoExtension.class)
 class SimpleEmailServiceTest {
@@ -25,7 +29,11 @@ class SimpleEmailServiceTest {
     @Test
     public void shouldSendEmail() {
         //Given
-        Mail mail = new Mail("test@test.com", "Test", "Test Message");
+        Mail mail = Mail.builder()
+                .mailTo("test@test.com")
+                .subject("Test")
+                .message("Test Message")
+                .build();
 
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(mail.getMailTo());
@@ -38,4 +46,51 @@ class SimpleEmailServiceTest {
         //Then
         verify(javaMailSender, times(1)).send(mailMessage);
     }
+
+    @Test
+    public void shouldSendEmailWithCC() {
+        //Given
+        Mail mail = Mail.builder()
+                .mailTo("test@test.com")
+                .toCC("testCC@test.com")
+                .subject("Test")
+                .message("Test Message")
+                .build();
+
+        SimpleMailMessage mailMessageWithCC = new SimpleMailMessage();
+        mailMessageWithCC.setTo(mail.getMailTo());
+        mailMessageWithCC.setSubject(mail.getSubject());
+        mailMessageWithCC.setText(mail.getMessage());
+        mailMessageWithCC.setCc(mail.getToCC());
+        //When
+        simpleEmailService.send(mail);
+
+        //Then
+        verify(javaMailSender, times(1)).send(mailMessageWithCC);
+    }
+
+    @Test
+    public void shouldSendEmailWithoutCC() {
+        //Given
+
+        Mail mail = Mail.builder()
+                .mailTo("test@test.com")
+                .subject("Test")
+                .message("Test Message")
+                .build();
+
+
+        SimpleMailMessage mailMessageWithoutCC = new SimpleMailMessage();
+        mailMessageWithoutCC.setTo(mail.getMailTo());
+        mailMessageWithoutCC.setSubject(mail.getSubject());
+        mailMessageWithoutCC.setText(mail.getMessage());
+//        mailMessageWithoutCC.setCc(mail.getToCC());
+
+        //When
+        simpleEmailService.send(mail);
+
+        //Then
+        verify(javaMailSender, times(1)).send(mailMessageWithoutCC);
+    }
+
 }
