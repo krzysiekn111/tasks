@@ -1,5 +1,6 @@
 package com.crud.tasks.trello.client;
 
+
 import com.crud.tasks.controller.TrelloController;
 import com.crud.tasks.domain.*;
 import com.crud.tasks.mapper.TrelloMapper;
@@ -13,17 +14,17 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
 import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest
 @ExtendWith(MockitoExtension.class)
 public class TrelloFacadeTestSuite {
-    @Autowired
-    private TrelloController trelloController;
 
     @InjectMocks
     private TrelloFacade trelloFacade;
@@ -37,52 +38,9 @@ public class TrelloFacadeTestSuite {
     @Mock
     private TrelloMapper trelloMapper;
 
-//    @Test
-//    void TestMapToCard() {
-//        //Given
-//        TrelloCardDto trelloCardDto = new TrelloCardDto("name", "description", "high", "1");
-//        //When
-//        TrelloCard trelloCard = trelloMapper.mapToCard(trelloCardDto);
-//        //Then
-//        assertEquals("name", trelloCard.getName());
-//        assertEquals("description", trelloCard.getDescription());
-//        assertEquals("high", trelloCard.getPos());
-//        assertEquals("1", trelloCard.getListId());
-//    }
-//
-//    @Test
-//    void testMaptoCardDto() {
-//        //Given
-//        TrelloCard trelloCard = new TrelloCard("name", "opis", "low", "5");
-//        //When
-//        TrelloCardDto trelloCardDto = trelloMapper.mapToCardDto(trelloCard);
-//        //Then
-//        assertEquals("name", trelloCardDto.getName());
-//        assertEquals("opis", trelloCardDto.getDescription());
-//        assertEquals("low", trelloCardDto.getPos());
-//        assertEquals("5", trelloCardDto.getListId());
-//    }
 
     @Test
     void shouldFetchEmptyList() {
-        // Given
-        List<TrelloListDto> trelloLists =
-                List.of(new TrelloListDto("1", "test_list", false));
-
-        List<TrelloBoardDto> trelloBoards =
-                List.of(new TrelloBoardDto("1", "test", trelloLists));
-
-        List<TrelloList> mappedTrelloLists =
-                List.of(new TrelloList("1", "test_list", false));
-
-        List<TrelloBoard> mappedTrelloBoards =
-                List.of(new TrelloBoard("1", "test", mappedTrelloLists));
-
-        when(trelloService.fetchTrelloBoards()).thenReturn(trelloBoards);
-        when(trelloMapper.mapToBoard(trelloBoards)).thenReturn(mappedTrelloBoards);
-        when(trelloMapper.mapToBoardsDto(anyList())).thenReturn(List.of());
-        when(trelloValidator.validateTrelloBoards(mappedTrelloBoards)).thenReturn(List.of());
-
         // When
         List<TrelloBoardDto> trelloBoardDtos = trelloFacade.fetchTrelloBoards();
         // Then
