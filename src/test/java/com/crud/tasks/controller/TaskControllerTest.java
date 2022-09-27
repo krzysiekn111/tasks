@@ -75,7 +75,7 @@ class TaskControllerTest {
         //Given
         //When & Then
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/v1/tasks/1")
+                        .delete("/v1/tasks/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().is(200));
     }
