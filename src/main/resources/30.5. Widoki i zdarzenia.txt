@@ -1,0 +1,16 @@
+CREATE TABLE STATS (
+                STAT_ID INT(11) AUTO_INCREMENT PRIMARY KEY,
+                STAT_DATE DATETIME NOT NULL,
+                STAT VARCHAR(20) NOT NULL,
+                VALUE INT(11) NOT NULL
+);
+
+
+
+create view BESTSELLERS_COUNT AS
+select COUNT(*) from books where BESTSELLER = 1;
+
+
+CREATE EVENT UPDATE_Bestsellers
+    ON SCHEDULE EVERY 1 MINUTE
+    DO CALL UpdateBestsellers();
