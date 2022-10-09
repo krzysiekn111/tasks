@@ -5,8 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-@AllArgsConstructor
 @Data
+@AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TrelloListDto {
 
@@ -18,6 +18,4 @@ public class TrelloListDto {
 
     @JsonProperty("closed")
     private boolean isClosed;
-
-
 }
